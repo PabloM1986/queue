@@ -20,3 +20,13 @@ Usage:
   queue.run();
 ```
 You can define a function to run after the queue is empty. Just override the 'finished' method with your own.
+
+```javascript
+  var queue = new Queue();
+
+  queue.finished = function () {
+    //do something
+  }
+
+  queue.run();
+```
