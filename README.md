@@ -32,3 +32,19 @@ You can define a function to run after the queue is empty. Just override the 'fi
 ```
 
 The queue is not preserved after it is run. All callbacks already executed will be lost. However if a callback failed, the remaining ones wont fire and will remain queued. You can use queue.clear to empty the queue if this happens.
+
+Asynchronous callbacks can force the queue to stop through the abort() method or by refraining to call next(). Synchronous ones can do the same by throwing an error.
+
+
+
+```javascript
+  var queue = new Queue();
+
+  queue.add(function (q) {
+    var next = q.async();
+    //do some asynchronous operation and call next()
+    q.abort();
+  });
+
+  queue.run();
+```

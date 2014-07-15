@@ -16,7 +16,7 @@ function testSync () {
 	}
 	testQueue.run();
 	if (result == expected) {
-		jQuery("#result").append("<p>Sync test passed</p>");
+		jQuery("#result").append("<p style='color:green;'>Sync test passed</p>");
 	} else {
 		jQuery("#result").append("<p style='color:red'>Sync test failed</p>");
 	}
@@ -54,14 +54,29 @@ function testAsync () {
 		setTimeout(function () {
 			result += 4;
 			done();
-
-			if (result == expected) {
-				jQuery("#result").append("<p>Async test passed</p>");
-			} else {
-				jQuery("#result").append("<p style='color:red;'>Async test failed</p>");
-			}
 		}, 500);
 	});
 
+	testQueue.finished = function () {
+		if (result == expected) {
+			jQuery("#result").append("<p style='color:green;'>Async test passed</p>");
+		} else {
+			jQuery("#result").append("<p style='color:red;'>Async test failed</p>");
+		}
+	}
+
 	testQueue.run();
+}
+
+function emptyRun () {
+	var testQueue = new Queue();
+
+	testQueue.finished = function () {
+		jQuery("#result").append("<p style='color:green;'>Empty run passed</p>");
+	}
+
+	testQueue.run();
+}
+function clearResults() {
+	jQuery("#result").html("");
 }

@@ -39,11 +39,13 @@ Queue.prototype.abort = function () {
 
 Queue.prototype.run = function () {
 	var current = this._queue.shift();
-	this.isRunning = true;
 	if (current) {
+		this.isRunning = true;
 		do {
 			current(this);
 		} while (!this._async && (current = this._queue.shift()));
+	} else {
+		this.finished();
 	}
 };
 
@@ -52,6 +54,9 @@ Queue.prototype.next = function () {
 	if (this.isRunning) {
 		if (this._queue.length > 0) {
 			this._queue.shift()(this);
+		} else {
+			this.isRunning = false;
+			this.finished();
 		}
 	} else {
 		throw new Error("Execution aborted unexpectedly");
@@ -64,3 +69,9 @@ Queue.prototype.add = function (callback) {
 	}
 	this._queue.push(callback);
 };
+
+Queue.prototype.clear = function () {
+	this._queue = [];
+};
+
+Queue.prototype.finished = function () {};
