@@ -74,4 +74,8 @@ Queue.prototype.clear = function () {
 	this._queue = [];
 };
 
+Queue.prototype.length = function () {
+	return this._queue.length;
+}
+
 Queue.prototype.finished = function () {};
