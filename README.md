@@ -30,3 +30,5 @@ You can define a function to run after the queue is empty. Just override the 'fi
 
   queue.run();
 ```
+
+The queue is not preserved after it is run. All callbacks already executed will be lost. However if a callback failed, the remaining ones wont fire and will remain queued. You can use queue.clear to empty the queue if this happens.
